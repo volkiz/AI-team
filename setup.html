@@ -98,16 +98,7 @@
             padding: 0 20px;
         }
 
-        .url-bar {
-            background: #000;
-            padding: 6px 12px;
-            border-radius: 4px;
-            color: #666;
-            font-size: 12px;
-            flex: 1;
-            margin: 0 15px;
-            font-family: monospace;
-        }
+
 
         .webview-wrapper {
             flex: 1;
@@ -198,7 +189,6 @@
     <div class="main-content">
         <div class="browser-toolbar">
             <h3 id="current-title" style="margin: 0; font-size: 14px;">Select a service</h3>
-            <div class="url-bar" id="url-display">Waiting for selection...</div>
         </div>
 
         <div class="webview-wrapper" id="webview-container">
@@ -234,7 +224,7 @@
 
         let currentServiceIndex = -1;
         const webviewContainer = document.getElementById('webview-container');
-        const urlDisplay = document.getElementById('url-display');
+
         const currentTitle = document.getElementById('current-title');
         const stepList = document.getElementById('step-list');
 
@@ -261,7 +251,6 @@
 
             // Update Header
             currentTitle.innerText = service.name;
-            urlDisplay.innerText = service.url;
 
             // Load Webview
             webviewContainer.innerHTML = '';
@@ -278,7 +267,7 @@
             webviewContainer.appendChild(wv);
 
             wv.addEventListener('did-navigate', (e) => {
-                urlDisplay.innerText = e.url;
+                // urlDisplay update removed
             });
         }
 
