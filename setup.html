@@ -1,185 +1,313 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
-    <title>AI-Team Setup</title>
+    <title>AI-Team Initial Setup</title>
     <style>
         body {
             margin: 0;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             height: 100vh;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', sans-serif;
             background: #111;
             color: #fff;
+            overflow: hidden;
         }
 
-        .setup-container {
+        /* Sidebar for navigation */
+        .sidebar {
+            width: 260px;
             background: #1a1a1a;
-            padding: 40px;
-            border-radius: 12px;
-            border: 1px solid #333;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            width: 400px;
-            text-align: center;
+            border-right: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        h1 {
-            margin-bottom: 30px;
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-            text-align: left;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: #aaa;
-            font-weight: 500;
-        }
-
-        select {
-            width: 100%;
-            padding: 10px;
-            background: #222;
-            border: 1px solid #444;
-            color: #fff;
-            border-radius: 6px;
-            font-size: 14px;
-            outline: none;
-            cursor: pointer;
-        }
-
-        select:focus {
-            border-color: #6366f1;
-        }
-
-        .members-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .checkbox-item {
+        .logo-area {
             display: flex;
             align-items: center;
-            gap: 8px;
-            background: #222;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #333;
-            cursor: pointer;
-            transition: all 0.2s;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
         }
 
-        .checkbox-item:hover {
-            border-color: #555;
-            background: #2a2a2a;
-        }
-
-        .checkbox-item input {
-            accent-color: #6366f1;
-            cursor: pointer;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #6366f1;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        button:hover {
-            background: #4f46e5;
-        }
-
-        .logo {
-            width: 60px;
-            height: 60px;
+        .logo-circle {
+            width: 32px;
+            height: 32px;
             background: #fff;
             color: #000;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
             font-weight: 800;
-            margin: 0 auto 20px;
+        }
+
+        .step-list {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .step-item {
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: transparent;
+            transition: all 0.2s;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .step-item:hover {
+            background: #252525;
+            color: #ccc;
+        }
+
+        .step-item.active {
+            background: #6366f1;
+            color: white;
+        }
+
+        .step-item.completed .status-icon {
+            color: #4ade80;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .browser-toolbar {
+            height: 50px;
+            background: #1a1a1a;
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .url-bar {
+            background: #000;
+            padding: 6px 12px;
+            border-radius: 4px;
+            color: #666;
+            font-size: 12px;
+            flex: 1;
+            margin: 0 15px;
+            font-family: monospace;
+        }
+
+        .webview-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        webview {
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+
+        .action-bar {
+            padding: 20px;
+            background: #1a1a1a;
+            border-top: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-secondary {
+            background: #333;
+            color: #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #444;
+        }
+
+        .btn-primary {
+            background: #6366f1;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #4f46e5;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .description {
+            color: #888;
+            font-size: 12px;
+            margin-top: 5px;
         }
     </style>
 </head>
+
 <body>
-    <div class="setup-container">
-        <div class="logo">AI-T</div>
-        <h1>Welcome to AI-Team</h1>
-        
-        <div class="form-group">
-            <label>Interface Language</label>
-            <select id="lang-select">
+
+    <div class="sidebar">
+        <div class="logo-area">
+            <div class="logo-circle">AI</div>
+            <div>
+                <div style="font-weight: 600;">System Setup</div>
+                <div style="font-size: 11px; color: #666;">Authentication Phase</div>
+            </div>
+        </div>
+
+        <div class="step-list" id="step-list">
+            <!-- Generated via JS -->
+        </div>
+
+        <div style="margin-top: 20px; border-top: 1px solid #333; padding-top: 15px;">
+            <label style="display: block; font-size: 12px; color: #aaa; margin-bottom: 5px;">Interface Language</label>
+            <select id="lang-select"
+                style="width: 100%; background: #222; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px;">
                 <option value="en">English (US)</option>
                 <option value="tr">Türkçe</option>
             </select>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label>Active Members</label>
-            <div class="members-grid">
-                <label class="checkbox-item">
-                    <input type="checkbox" value="chatgpt" checked> ChatGPT
-                </label>
-                <label class="checkbox-item">
-                    <input type="checkbox" value="gemini" checked> Gemini
-                </label>
-                <label class="checkbox-item">
-                    <input type="checkbox" value="claude" checked> Claude
-                </label>
-                <label class="checkbox-item">
-                    <input type="checkbox" value="grok" checked> Grok
-                </label>
-                <label class="checkbox-item">
-                    <input type="checkbox" value="deepseek" checked> DeepSeek
-                </label>
+    <div class="main-content">
+        <div class="browser-toolbar">
+            <h3 id="current-title" style="margin: 0; font-size: 14px;">Select a service</h3>
+            <div class="url-bar" id="url-display">Waiting for selection...</div>
+        </div>
+
+        <div class="webview-wrapper" id="webview-container">
+            <!-- Webview injected here -->
+            <div
+                style="display: flex; align-items: center; justify-content: center; height: 100%; color: #444; flex-direction: column; gap: 10px;">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                </svg>
+                <p>Select an AI service from the sidebar to login.</p>
             </div>
         </div>
 
-        <button id="start-btn">Initialize System</button>
+        <div class="action-bar">
+            <div style="font-size: 12px; color: #666;">
+                Make sure you are logged in before proceeding.
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-secondary" id="skip-btn">Skip / Next</button>
+                <button class="btn btn-primary" id="finish-btn">Finish Setup</button>
+            </div>
+        </div>
     </div>
 
     <script>
-        document.getElementById('start-btn').addEventListener('click', () => {
-            const lang = document.getElementById('lang-select').value;
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-            const members = Array.from(checkboxes).map(cb => cb.value);
+        const services = [
+            { id: 'chatgpt', name: 'OpenAI (ChatGPT)', url: 'https://chatgpt.com/auth/login' },
+            { id: 'claude', name: 'Anthropic (Claude)', url: 'https://claude.ai/login' },
+            { id: 'gemini', name: 'Google (Gemini)', url: 'https://gemini.google.com/' },
+            { id: 'deepseek', name: 'DeepSeek Chat', url: 'https://chat.deepseek.com/sign_in' },
+            { id: 'grok', name: 'xAI (Grok)', url: 'https://grok.com/' }
+        ];
 
-            if (members.length === 0) {
-                alert("Please select at least one team member.");
-                return;
+        let currentServiceIndex = -1;
+        const webviewContainer = document.getElementById('webview-container');
+        const urlDisplay = document.getElementById('url-display');
+        const currentTitle = document.getElementById('current-title');
+        const stepList = document.getElementById('step-list');
+
+        // Render Sidebar
+        services.forEach((service, index) => {
+            const el = document.createElement('div');
+            el.className = 'step-item';
+            el.innerHTML = `
+                <span>${service.name}</span>
+                <span class="status-icon">⚪</span>
+            `;
+            el.onclick = () => loadService(index);
+            stepList.appendChild(el);
+        });
+
+        function loadService(index) {
+            currentServiceIndex = index;
+            const service = services[index];
+
+            // Update Sidebar UI
+            Array.from(stepList.children).forEach((child, i) => {
+                child.classList.toggle('active', i === index);
+            });
+
+            // Update Header
+            currentTitle.innerText = service.name;
+            urlDisplay.innerText = service.url;
+
+            // Load Webview
+            webviewContainer.innerHTML = '';
+            const wv = document.createElement('webview');
+            wv.src = service.url;
+            wv.partition = `persist:${service.id}`;
+            wv.style.width = '100%';
+            wv.style.height = '100%';
+            wv.allowpopups = true;
+
+            // Allow user agent override if needed (handled in main.js session, but webview might need it)
+            // Note: renderer.js isn't loaded here, but main.js handles partition headers
+
+            webviewContainer.appendChild(wv);
+
+            wv.addEventListener('did-navigate', (e) => {
+                urlDisplay.innerText = e.url;
+            });
+        }
+
+        document.getElementById('skip-btn').addEventListener('click', () => {
+            // Mark current as 'visited' (visual only, user decides truth)
+            if (currentServiceIndex >= 0 && currentServiceIndex < stepList.children.length) {
+                const step = stepList.children[currentServiceIndex];
+                step.classList.add('completed');
+                step.querySelector('.status-icon').innerText = '🟢';
             }
 
+            // Go to next
+            const nextIndex = currentServiceIndex + 1;
+            if (nextIndex < services.length) {
+                loadService(nextIndex);
+            }
+        });
+
+        document.getElementById('finish-btn').addEventListener('click', () => {
+            const lang = document.getElementById('lang-select').value;
+            // Default to all members being active for now, or we could add checkboxes
             const config = {
                 lang: lang,
-                members: members
+                members: services.map(s => s.id)
             };
-
             window.electronAPI.sendSetupComplete(config);
         });
+
     </script>
 </body>
+
 </html>
