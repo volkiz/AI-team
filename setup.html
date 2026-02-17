@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AI-Team Setup</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #111;
+            color: #fff;
+        }
+
+        .setup-container {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #aaa;
+            font-weight: 500;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        select:focus {
+            border-color: #6366f1;
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #222;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #333;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checkbox-item:hover {
+            border-color: #555;
+            background: #2a2a2a;
+        }
+
+        .checkbox-item input {
+            accent-color: #6366f1;
+            cursor: pointer;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #6366f1;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            background: #4f46e5;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: #fff;
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            margin: 0 auto 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="setup-container">
+        <div class="logo">AI-T</div>
+        <h1>Welcome to AI-Team</h1>
+        
+        <div class="form-group">
+            <label>Interface Language</label>
+            <select id="lang-select">
+                <option value="en">English (US)</option>
+                <option value="tr">Türkçe</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Active Members</label>
+            <div class="members-grid">
+                <label class="checkbox-item">
+                    <input type="checkbox" value="chatgpt" checked> ChatGPT
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" value="gemini" checked> Gemini
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" value="claude" checked> Claude
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" value="grok" checked> Grok
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" value="deepseek" checked> DeepSeek
+                </label>
+            </div>
+        </div>
+
+        <button id="start-btn">Initialize System</button>
+    </div>
+
+    <script>
+        document.getElementById('start-btn').addEventListener('click', () => {
+            const lang = document.getElementById('lang-select').value;
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            const members = Array.from(checkboxes).map(cb => cb.value);
+
+            if (members.length === 0) {
+                alert("Please select at least one team member.");
+                return;
+            }
+
+            const config = {
+                lang: lang,
+                members: members
+            };
+
+            window.electronAPI.sendSetupComplete(config);
+        });
+    </script>
+</body>
+</html>
